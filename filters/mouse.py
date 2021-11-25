@@ -3,7 +3,7 @@ import numpy as np
 import dlib
 from math import hypot
 filter_image = cv2.imread("assest\ghoul2.png")
-filter_image3 = cv2.imread("assest/hair8.png")
+filter_image3 = cv2.imread("assest/hair9.png")
 filter_image4 = cv2.imread("assest/eye1.png")
 filter_image5 = cv2.imread("assest/eye2.png")
 
@@ -22,9 +22,9 @@ def filteringmouse(cap,rows, cols):
     # if faces:
     try:
         filter(frame,gray_frame,faces,filter_image,66,66,1,1,20)
-        filter(frame, gray_frame, faces, filter_image3,27,27,1.5,2,25)
+        # filter(frame, gray_frame, faces, filter_image3,27,27,1.5,2,25)
 
-        # filter(frame, gray_frame, faces, filter_image3,27,27,1.5,1,100)
+        filter(frame, gray_frame, faces, filter_image3,27,27,1.5,1,100)
         filter(frame, gray_frame, faces, filter_image4,40,40,0.2,0.4,5)
         filter(frame, gray_frame, faces, filter_image5,46,46,0.2,0.4,5)
 

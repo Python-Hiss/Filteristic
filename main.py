@@ -6,7 +6,7 @@ from filters.filter1 import filtering
 from filters.mouse import filteringmouse
 
 # Loading Camera and Nose image and Creating mask
-cap = cv2.VideoCapture('baby.mp4')
+cap = cv2.VideoCapture(0)
 cap.set(3, 1920)
 cap.set(4, 1080)
 _, frame = cap.read()
