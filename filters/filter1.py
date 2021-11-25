@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import dlib
 from math import hypot
+
 filter_image = cv2.imread("assest\image1.png")
 # Loading Face detector
 detector = dlib.get_frontal_face_detector()
