@@ -2,8 +2,16 @@ from tkinter import *
 import cv2
 from PIL import Image, ImageTk
 import time
+
+# from GUI import addApp, runApps
+# import tkinter as tk
+# root = tk.Tk()
+
 # root = Tk()
 # from GUI import *
+
+from PyQt5.QtMultimedia import *
+from PyQt5.QtCore import QUrl
 
 class App:
     def __init__(self, video_source=0):
@@ -21,9 +29,11 @@ class App:
         self.canvas = Canvas(self.window, width=self.vid.width, height=self.vid.height, bg="red")
         self.canvas.pack()
 
-        self.btn_snapshot = Button(self.window, text="capture", width=30, bg="white", activebackground="red",
+        self.btn_snapshot = Button(self.window, text="capture", width=15, bg="white", activebackground="red",
                                    command=self.snapshot)
         self.btn_snapshot.pack(anchor=CENTER, expand=True)
+
+
         self.update()
         self.window.mainloop()
 
@@ -33,7 +43,14 @@ class App:
                 image = "IMG-" + time.strftime("%H-%M-%S-%d-%m") + ".jpg"
                 cv2.imwrite(image, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
-                msg = Label(self.window, text="image saved"+image,bg="black", fg="green").place(x=430, y=510)
+                msg = Label(self.window, text="image saved  "+image,bg="white", fg="magenta").place(x=460, y=510)
+
+                # file = QUrl("click.wav")
+                # content = QMediaContent(file)
+                # self.player = QMediaContent(file)
+                # self.player = QMediaPlayer()
+                # self.player.setMedia(content)
+                # self.player.play()
 
     def update(self):
         isTrue, frame = self.vid.getFrame()
