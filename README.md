@@ -51,4 +51,4 @@ Featured task: different filter names must appear to the user
 
 <h2 style= "color:#23968b">Domain Modeling</h2>
 
-[white board](https://miro.com/app/board/o9J_lgjUC2c=/)
+[white board ](https://miro.com/app/board/o9J_lgjUC2c=/)
