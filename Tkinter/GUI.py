@@ -2,11 +2,10 @@ import tkinter as tk
 from tkinter import filedialog, Text
 import os, sys, subprocess
 # from tkinter import *
-
-# from PIL import Image
+from main import cap
+from PIL import Image
 
 root = tk.Tk()
-
 images = []
 
 def addApp():
@@ -24,11 +23,11 @@ def runApps():
     for img in images:
         if sys.platform=="win32":
          os.startfile(img)
-
     else:
         opener = "open" if sys.platform == "darwin" else "xdg-open"
         subprocess.call([opener, img])
-canvas = tk.Canvas(root, width=1000,height=800,bg ="#2596be")
+
+canvas = tk.Canvas(root, width=1000,heigh=800,bg ="#2596be")
 canvas.pack()
 frame = tk.Frame(root, bg="white")
 frame.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
@@ -43,45 +42,5 @@ secondButton.pack(side=tk.BOTTOM)
 
 root.mainloop()
 
-# from tkinter import *
-# from tkinter import ttk
-# from tkinter import filedialog
-# from PIL import Image, ImageTk
-
-
-# class Root(Tk):
-#     def __init__(self):
-#         super(Root, self).__init__()
-#         self.title("Python Tkinter Dialog Widget")
-#         self.minsize(640, 400)
-
-#         self.labelFrame = ttk.LabelFrame(self, text = "Open File")
-#         self.labelFrame.grid(column = 0, row = 1, padx = 20, pady = 20)
-
-#         self.button()
-
-
-#     def button(self):
-#         self.button = ttk.Button(self.labelFrame, text = "Browse A File",command = self.fileDialog)
-#         self.button.grid(column = 1, row = 1)
-
-
-#     def fileDialog(self):
-
-#         self.filename = filedialog.askopenfilename(initialdir="/home", title = "Select A File", filetype =
-#         (("jpeg files","*.jpg"),("all files","*.*")) )
-#         self.label = ttk.Label(self.labelFrame, text = "")
-#         self.label.grid(column = 1, row = 2)
-#         self.label.configure(text = self.filename)
-
-#         img = Image.open(self.filename)
-#         photo = ImageTk.PhotoImage(img)
-
-#         self.label2 = Label(image=photo)
-#         self.label2.image = photo
-#         self.label2.grid(column=3, row=4)
-
-# root = Root()
-# root.mainloop()
 
 
