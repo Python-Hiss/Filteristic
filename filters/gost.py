@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import dlib
 from math import hypot
-filter_image = cv2.imread("assest/10-2-moustache-free-png-image.png")
+filter_image = cv2.imread("assest/moustache2.png")
 
 # Loading Face detector
 detector = dlib.get_frontal_face_detector()
