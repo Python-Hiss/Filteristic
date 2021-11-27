@@ -2,45 +2,112 @@ import tkinter as tk
 from tkinter import filedialog, Text
 import os, sys, subprocess
 # from tkinter import *
-from main import cap
-from PIL import Image
-
+from tkinter.ttk import *
+from tkinter import *
+from PIL import Image, ImageTk
+import time
+import cv2
+from snapshot import App, videoCapture
 root = tk.Tk()
 images = []
 
-def addApp():
 
-    for widget in frame.winfo_children():
-        widget.destroy()
+######### import Window ##########
+def importWindow():
+    def browse(newWindow):
+        filename = filedialog.askopenfilename(initialdir="/home/yousef/Pictures", title="select File",
+                                              filetypes=(("executables", "*.jpg"), ("all files", "*.*")))
+        images.append(filename)
 
-    filename = filedialog.askopenfilename(initialdir="/home/yousef", title="select File", filetypes=(("executables","*.png"), ("all files","*.*")))
-    images.append(filename)
-    for img in images:
-        label = tk.Label(frame, text=img, bg="gray")
-        label.pack()
+        canv = Canvas(newWindow, width=150, height=150, bg='white')
+        canv.grid(row=2, column=3)
 
-def runApps():
-    for img in images:
-        if sys.platform=="win32":
-         os.startfile(img)
-    else:
-        opener = "open" if sys.platform == "darwin" else "xdg-open"
-        subprocess.call([opener, img])
-
-canvas = tk.Canvas(root, width=1000,heigh=800,bg ="#2596be")
-canvas.pack()
-frame = tk.Frame(root, bg="white")
-frame.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
-
-openFile= tk.Button(text="Browse", padx=18, pady=5, fg="white", bg="#2596be", command=addApp)
-openFile.pack(side=tk.BOTTOM)
-
-secondButton= tk.Button(text="Run App", padx=18, pady=5, fg="white", bg="#2596be", command=runApps)
-secondButton.pack(side=tk.BOTTOM)
+        img = ImageTk.PhotoImage(Image.open('Cat03.jpg'))
+        canv.create_image(20, 20, anchor=NW, image=img)
 
 
+    newWindow = Toplevel(root)
+    root.withdraw()
+    newWindow.title("New Window")
+    newWindow.geometry("700x700")
+    Label(newWindow,
+          text="This is a new window").grid()
+    backButton = tk.Button(newWindow, text="Browse", padx=90, pady=10, fg="white", bg="#2596be", font=('arial', 15),command=lambda: browse(newWindow))
+    backButton.grid()
 
+    ######## Back to previous window ########
+    def on_closing():
+        newWindow.destroy()
+        root.deiconify()
+    backButton = tk.Button(newWindow, text="Previous Page", padx=90, pady=10, fg="white", bg="#2596be", font=('arial', 15), command=on_closing)
+    backButton.grid()
+
+    newWindow.protocol("WM_DELETE_WINDOW", on_closing)
+
+
+
+########### second-window #############
+
+def videoWindow():
+    def openCamera():
+        # cap=cv2.VideoCapture(0)
+        # frame=cap.read()
+        # cv2.imshow('frame', frame)
+        # cv2.waitKey(0)
+        cap = cv2.VideoCapture(0)
+        while True:
+            _, frame = cap.read()
+            cv2.imshow('frame', frame)
+            cv2.waitKey(1)
+
+
+        canv = Canvas(newWindow, width=150, height=150, bg='white')
+        canv.grid(row=2, column=3)
+
+
+        img = ImageTk.PhotoImage(Image.open('Cat03.jpg'))
+        canv.create_image(20, 20, anchor=NW, image=img)
+
+
+    newWindow = Toplevel(root)
+    root.withdraw()
+    newWindow.title("New Window")
+    newWindow.geometry("700x700")
+    Label(newWindow,
+          text="This is a new window").grid()
+    backButton = tk.Button(newWindow, text="Browse", padx=90, pady=10, fg="white", bg="#2596be", font=('arial', 15), command=openCamera)
+    backButton.grid()
+
+
+
+
+    ######## Back to previous window ########
+    def on_closing():
+        newWindow.destroy()
+        root.deiconify()
+    backButton = tk.Button(newWindow, text="Previous Page", padx=90, pady=10, fg="white", bg="#2596be", font=('arial', 15), command=on_closing)
+    backButton.grid()
+
+    newWindow.protocol("WM_DELETE_WINDOW", on_closing)
+
+
+
+########## Home-Page ##########
+image= PhotoImage(file ='../assest/image.png',width=700,height=700)
+Label(root, image= image, bg="black",).grid(column=0,row=0,columnspan=2)
+
+importButton = tk.Button(text="Import", padx=90, pady=10, fg="white", bg="#2596be", font=('arial',15), command=importWindow)
+importButton.grid(row=1,column=0)
+
+
+cameraButton= tk.Button(text="Camera", padx=90, pady=10, fg="white", bg="#2596be",font=('arial',15), command=videoWindow)
+cameraButton.grid(row=1,column=1)
+
+
+###########################################
 root.mainloop()
+
+
 
 
 

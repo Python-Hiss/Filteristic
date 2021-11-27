@@ -3,12 +3,8 @@ import cv2
 from PIL import Image, ImageTk
 import time
 
-# from GUI import addApp, runApps
-# import tkinter as tk
-# root = tk.Tk()
 
-# root = Tk()
-# from GUI import *
+
 
 from PyQt5.QtMultimedia import *
 from PyQt5.QtCore import QUrl
@@ -60,9 +56,6 @@ class App:
             self.canvas.create_image(0, 0, image=self.photo, anchor=NW)
 
         self.window.after(15, self.update)
-
-
-
 
 
 ########### Class for Capture Video##############3
