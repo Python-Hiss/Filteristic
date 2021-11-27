@@ -1,0 +1,6 @@
+change_filter =[{'filter':['../assest/hair9.png','../assest/ghoul2.png'],
+  'center':[27,66],
+  'width':[1.5,1],
+  'height':[1,1],
+  'up':[100,20],
+  'left':[0,0]}]
