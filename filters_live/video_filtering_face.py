@@ -18,7 +18,6 @@ def video_filtering_face(path,center,width,height,up,left,counte=0):
     for i in path:
         filter_image.append(cv2.imread(i))
 
-
     while cap.isOpened():
         filter1 = np.zeros((rows, cols), np.uint8)
 

@@ -5,10 +5,7 @@ from math import hypot
 from filters_live.change_filter import change_filter
 import os
 
-# Loading Face detector
-
 def image_filtering_face(path_filter,path_image,center,width,height,up,left,counte=0):
-    # path = r"../assest/moustache2.png"
     filter_image = []
     for i in path_filter:
         filter_image.append(cv2.imread(i))
@@ -34,23 +31,11 @@ def image_filtering_face(path_filter,path_image,center,width,height,up,left,coun
         change_image(counte,path_image)
     elif key == ord('q'):
         cv2.destroyAllWindows()
-    # elif key == ord("c"):
-    #     img_name = "../saved/opencv_frame.png"
-    #     cv2.imwrite(img_name, image)
-    #     print("{} written!".format(img_name))
-    #
-    #     image = cv2.imread(img_name)
-    #     cv2.imshow("Frame", image)
-    #     key = cv2.waitKey(0)
-    #     os.remove("../saved/opencv_frame.png")
-        if key == ord("s"):
-            user_name = input("enter name")
-            imgdir = f"../saved/{user_name}.png"
-            cv2.imwrite(imgdir, image)
-            image_filtering_face(["../assest/tongue.png"],"../assest/face.jpg",[57],[0.6],[1.2],[-25],[0])
-        if key == ord("e"):
-            image_filtering_face(["../assest/tongue.png"],"../assest/face.jpg",[57],[0.6],[1.2],[-25],[0])
-
+    if key == ord("s"):
+        user_name = input("enter name")
+        imgdir = f"../saved/{user_name}.png"
+        cv2.imwrite(imgdir, image)
+        change_image(counte,path_image)
 
 
 def filter(image,gray_frame,faces,filter_image1,center,width,height,up=0,left=0):
