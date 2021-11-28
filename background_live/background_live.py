@@ -2,7 +2,6 @@ import cv2
 import mediapipe as mp
 import numpy as np
 from request_image import add_path
-import os
 def background(path,blur =1,img=2):
     mp_selfie_segmentation = mp.solutions.selfie_segmentation
     back1=1
@@ -15,10 +14,10 @@ def background(path,blur =1,img=2):
 
     # begin with selfie segmentation model
 
-    img_name = ""
+
     while cam.isOpened():
         scene = cv2.imread(path)  # read the scene image
-        scene = cv2.blur(scene, (blur, blur))
+        scene = cv2.blur(scene, (1, 1))
         scene = cv2.resize(scene, (fsize[1], fsize[0]))  # resize scene to the size of frame
         with mp_selfie_segmentation.SelfieSegmentation(model_selection=1) as selfie_seg:
             bg_image = scene
@@ -52,29 +51,11 @@ def background(path,blur =1,img=2):
                 if back1 ==img+1:
                     back1=1
                 path = f'../assest/background/back{back1}.png'
-            if key == ord('a'):
-                path = add_path(input('path image : '))
-                  # wait until any key is pressed
+
 
             if key == ord('q'):
                 cam.release()
                 cv2.destroyAllWindows()  # wait until any key is pressed
-            elif key == ord("c"):
-                img_name = "../saved/opencv_frame.png"
-                cv2.imwrite(img_name, output_image)
-                # print("{} written!".format(img_name))
-                break
-    frames = cv2.imread(img_name)
-    cv2.imshow("Background Change with MP", frames)
-    key = cv2.waitKey(0)
-    os.remove("../saved/opencv_frame.png")
-    if key == ord("s"):
-        user_name = input("enter name")
-        imgdir = f"../saved/{user_name}.png"
-        cv2.imwrite(imgdir, frames)
-        background('../assest/background/back1.png',blur,img)
-    if key == ord("e"):
-        background('../assest/background/back1.png',blur,img)
     cam.release()
     cv2.destroyAllWindows()
 

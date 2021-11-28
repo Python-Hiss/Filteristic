@@ -2,14 +2,19 @@ import cv2
 import numpy as np
 import dlib
 from math import hypot
-from filters_live.change_filter import change_filter
+from change_filter import change_filter
 import os
 
-def image_filtering_face(path_filter,path_image,center,width,height,up,left,counte=0):
+# Loading Face detector
+
+def image_filtering_face(path_filter,center,width,height,up,left,counte=0):
+    # path = r"../assest/moustache2.png"
+
     filter_image = []
     for i in path_filter:
         filter_image.append(cv2.imread(i))
-    image = cv2.imread(path_image)
+
+    image = cv2.imread("saved/test.jpg")
     rows, cols, _ = image.shape
     filter1 = np.zeros((rows, cols), np.uint8)
     filter1.fill(0)
@@ -21,21 +26,33 @@ def image_filtering_face(path_filter,path_image,center,width,height,up,left,coun
             for i in range(len(path_filter)):
                 filter(image,gray_image,faces,filter_image[i],center[i],width[i],height[i],up[i],left[i])
         except:
-            image = cv2.imread(path_image)
+            image = cv2.imread("saved/test.jpg")
             cv2.imshow("Frame", image)
-    else:
-        image = cv2.imread(path_image)
-        cv2.imshow("Frame", image)
+
     key = cv2.waitKey(0)
     if key == ord('n'):
-        change_image(counte,path_image)
+        change_image(counte)
     elif key == ord('q'):
         cv2.destroyAllWindows()
-    if key == ord("s"):
-        user_name = input("enter name")
-        imgdir = f"../saved/{user_name}.png"
-        cv2.imwrite(imgdir, image)
-        change_image(counte,path_image)
+
+    elif key == ord("c"):
+        img_name = "../saved/opencv_frame.png"
+        cv2.imwrite(img_name, image)
+        print("{} written!".format(img_name))
+
+        image = cv2.imread(img_name)
+        cv2.imshow("Frame", image)
+        key = cv2.waitKey(0)
+        os.remove("../saved/opencv_frame.png")
+        if key == ord("s"):
+            user_name = input("enter name")
+            imgdir = f"../saved/{user_name}.png"
+            cv2.imwrite(imgdir, image)
+            image_filtering_face(["../assest/tongue.png"],"../assest/face.jpg",[57],[0.6],[1.2],[-25],[0])
+        if key == ord("e"):
+            image_filtering_face(["../assest/tongue.png"],"../assest/face.jpg",[57],[0.6],[1.2],[-25],[0])
+
+
 
 
 def filter(image,gray_frame,faces,filter_image1,center,width,height,up=0,left=0):
@@ -74,10 +91,9 @@ def filter(image,gray_frame,faces,filter_image1,center,width,height,up=0,left=0)
 
         cv2.imshow("Frame", image)
 
-def change_image(i,path_image):
+def change_image(i):
     image_filtering_face(
         change_filter[i]['filter'],
-        path_image,
         change_filter[i]['center'],
         change_filter[i]['width'],
         change_filter[i]['height'],
@@ -86,4 +102,4 @@ def change_image(i,path_image):
         change_filter[i]['counte']
     )
 if __name__ == "__main__":
-    image_filtering_face(["../assest/tongue.png"],"../assest/face.jpg",[57],[0.6],[1.2],[-25],[0])
+    image_filtering_face(["../assest/tongue.png"],[57],[0.6],[1.2],[-25],[0])
