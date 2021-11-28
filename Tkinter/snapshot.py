@@ -6,7 +6,7 @@ import time
 
 
 
-from PyQt5.QtMultimedia import *
+# from PyQt5.QtMultimedia import *
 from PyQt5.QtCore import QUrl
 
 class App:
