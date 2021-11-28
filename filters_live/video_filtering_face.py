@@ -3,6 +3,7 @@ import numpy as np
 import dlib
 from math import hypot
 from change_filter import change_filter
+import os
 # change_filter =[{'filter':['../assest/hair9.png','../assest/ghoul2.png'],'center':[27,66],'width':[1.5,1],'height':[1,1],'up':[100,20],'left':[0,0]}]
 cap = cv2.VideoCapture(0)
 _, frame = cap.read()
@@ -30,16 +31,35 @@ def video_filtering_face(path,center,width,height,up,left,counte=0):
                 for i in range(len(path)):
                     filter(frame,gray_frame,faces,filter_image[i],center[i],width[i],height[i],up[i],left[i])
             except:
-                _, frame_f = cap.read()
-                cv2.imshow("Frame", frame_f)
+                _, frame = cap.read()
+                cv2.imshow("Frame", frame)
         else:
-            _, frame_f = cap.read()
-            cv2.imshow("Frame", frame_f)
+            _, frame = cap.read()
+            cv2.imshow("Frame", frame)
         key = cv2.waitKey(1)
         if key == ord('n'):
             # print('first : ' ,i)
             change_image(counte)
             # print('second : ', i)
+        elif key == ord('q'):
+            cap.release()
+            cv2.destroyAllWindows()
+        elif key ==ord("c"):
+            img_name = "../saved/opencv_frame.png"
+            cv2.imwrite(img_name, frame)
+            # print("{} written!".format(img_name))
+            break
+    frames = cv2.imread(img_name)
+    cv2.imshow("Frame", frames)
+    key = cv2.waitKey(0)
+    os.remove("../saved/opencv_frame.png")
+    if key ==ord("s"):
+        user_name = input("enter name")
+        imgdir = f"../saved/{user_name}.png"
+        cv2.imwrite(imgdir, frames)
+        video_filtering_face(["../assest/tongue.png"], [57], [0.6], [1.2], [-25], [0])
+    if key == ord("e"):
+        video_filtering_face(["../assest/tongue.png"], [57], [0.6], [1.2], [-25], [0])
 
 
 
@@ -91,3 +111,5 @@ def change_image(i):
         change_filter[i]['left'],
         change_filter[i]['counte']
     )
+if __name__ == "__main__":
+    video_filtering_face(["../assest/tongue.png"],[57],[0.6],[1.2],[-25],[0])

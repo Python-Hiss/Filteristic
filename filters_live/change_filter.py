@@ -1,4 +1,4 @@
-
+## jaso file for adding
 
 change_filter =[{'filter':['../assest/hair9.png','../assest/ghoul2.png','../assest/eye1.png','../assest/eye2.png'],
                  'center':[27,66,40,46],
@@ -49,6 +49,13 @@ change_filter =[{'filter':['../assest/hair9.png','../assest/ghoul2.png','../asse
                  'up': [1],
                  'left': [-3],
                  'counte': 7},
+                {'filter': ["../assest/beard.png"],
+                 'center': [8],
+                 'width': [1.1],
+                 'height': [1.5],
+                 'up': [0],
+                 'left': [0],
+                 'counte': 8},
                 {'filter': ["../assest/tongue.png"],
                  'center': [57],
                  'width': [0.6],
