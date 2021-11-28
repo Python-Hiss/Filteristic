@@ -1,13 +1,13 @@
+from filters_live.video_filtering_face import video_filtering_face,change_filter
 import tkinter as tk
 from tkinter import filedialog, Text
 import os, sys, subprocess
-# from tkinter import *
-from tkinter.ttk import *
 from tkinter import *
+from tkinter.ttk import *
 from PIL import Image, ImageTk
 import time
 import cv2
-# from snapshot import App, videoCapture
+from snapshot import App, videoCapture
 root = tk.Tk()
 images = []
 
@@ -26,7 +26,7 @@ def importWindow():
         canvas = Canvas(newWindow)
         canvas.config(width=1000, height=500)
         canvas.grid(row=1 , column=0,columnspan=3)
-        print(filename)
+        add_path(filename)
         img = ImageTk.PhotoImage(Image.open(images[0]))
         canvas.create_image(0, 0, anchor="nw", image=img)
         mainloop()
@@ -52,23 +52,24 @@ def importWindow():
 
 def videoWindow():
     def openCamera():
-        # cap=cv2.VideoCapture(0)
-        # frame=cap.read()
-        # cv2.imshow('frame', frame)
-        # cv2.waitKey(0)
-        cap = cv2.VideoCapture(0)
-        while True:
-            _, frame = cap.read()
-            cv2.imshow('frame', frame)
-            cv2.waitKey(1)
+        # # cap=cv2.VideoCapture(0)
+        # # frame=cap.read()
+        # # cv2.imshow('frame', frame)
+        # # cv2.waitKey(0)
+        # cap = cv2.VideoCapture(0)
+        # while True:
+        #     _, frame = cap.read()
+        #     cv2.imshow('frame', frame)
+        #     cv2.waitKey(1)
+        #
+        #
+        # canv = Canvas(newWindow, width=150, height=150, bg='white')
+        # canv.grid(row=2, column=3)
+        video_filtering_face(["../assest/tongue.png"], [57], [0.6], [1.2], [-25], [0])
 
 
-        canv = Canvas(newWindow, width=150, height=150, bg='white')
-        canv.grid(row=2, column=3)
-
-
-        img = ImageTk.PhotoImage(Image.open('123.png'))
-        canv.create_image(20, 20, anchor=NW, image=img)
+        # img = ImageTk.PhotoImage(Image.open('123.png'))
+        # canv.create_image(20, 20, anchor=NW, image=img)
 
 
     newWindow = Toplevel(root)
@@ -108,6 +109,7 @@ cameraButton.grid(row=1,column=1)
 
 ###########################################
 root.mainloop()
+
 
 
 
