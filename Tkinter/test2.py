@@ -11,7 +11,7 @@ from Tkinter.GUI_Live import camera
 # from snapshot import App, videoCapture
 root = tk.Tk()
 images = []
-from Tkinter.GUI_Image import importWindowyahia
+from GUI_Image import importWindowyahia
 
 
 ######### import Window ##########

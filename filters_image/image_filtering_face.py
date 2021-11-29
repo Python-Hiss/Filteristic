@@ -2,19 +2,17 @@ import cv2
 import numpy as np
 import dlib
 from math import hypot
-from change_filter import change_filter
+# from filters_image.change_filter_image import change_filter
 import os
 
-# Loading Face detector
+def image_filtering_face(path_filter,path_img,center,width,height,up,left,counte=0):
 
-def image_filtering_face(path_filter,center,width,height,up,left,counte=0):
-    # path = r"../assest/moustache2.png"
 
     filter_image = []
     for i in path_filter:
         filter_image.append(cv2.imread(i))
 
-    image = cv2.imread("saved/test.jpg")
+    image = cv2.imread(path_img)
     rows, cols, _ = image.shape
     filter1 = np.zeros((rows, cols), np.uint8)
     filter1.fill(0)
@@ -24,41 +22,41 @@ def image_filtering_face(path_filter,center,width,height,up,left,counte=0):
     if faces:
         try:
             for i in range(len(path_filter)):
-                filter(image,gray_image,faces,filter_image[i],center[i],width[i],height[i],up[i],left[i])
+                return filter(image,gray_image,faces,filter_image[i],center[i],width[i],height[i],up[i],left[i])
         except:
-            image = cv2.imread("saved/test.jpg")
-            cv2.imshow("Frame", image)
+            image = cv2.imread(path_img)
+            print("except")
+            return image
 
-    key = cv2.waitKey(0)
-    if key == ord('n'):
-        change_image(counte)
-    elif key == ord('q'):
-        cv2.destroyAllWindows()
+    # key = cv2.waitKey(0)
+    # if key == ord('n'):
+    #     change_image(counte)
+    # elif key == ord('q'):
+    #     cv2.destroyAllWindows()
+    #
+    # elif key == ord("c"):
+    #     img_name = "../saved/opencv_frame.png"
+    #     cv2.imwrite(img_name, image)
+    #     print("{} written!".format(img_name))
 
-    elif key == ord("c"):
-        img_name = "../saved/opencv_frame.png"
-        cv2.imwrite(img_name, image)
-        print("{} written!".format(img_name))
-
-        image = cv2.imread(img_name)
-        cv2.imshow("Frame", image)
-        key = cv2.waitKey(0)
-        os.remove("../saved/opencv_frame.png")
-        if key == ord("s"):
-            user_name = input("enter name")
-            imgdir = f"../saved/{user_name}.png"
-            cv2.imwrite(imgdir, image)
-            image_filtering_face(["../assest/tongue.png"],"../assest/face.jpg",[57],[0.6],[1.2],[-25],[0])
-        if key == ord("e"):
-            image_filtering_face(["../assest/tongue.png"],"../assest/face.jpg",[57],[0.6],[1.2],[-25],[0])
+        # image = cv2.imread(img_name)
+        # cv2.imshow("Frame", image)
+        # key = cv2.waitKey(0)
+        # os.remove("../saved/opencv_frame.png")
+        # if key == ord("s"):
+        #     user_name = input("enter name")
+        #     imgdir = f"../saved/{user_name}.png"
+        #     cv2.imwrite(imgdir, image)
+        #     image_filtering_face(["../assest/tongue.png"],"../assest/face.jpg",[57],[0.6],[1.2],[-25],[0])
+        # if key == ord("e"):
+        #     image_filtering_face(["../assest/tongue.png"],"../assest/face.jpg",[57],[0.6],[1.2],[-25],[0])
 
 
 
 
 def filter(image,gray_frame,faces,filter_image1,center,width,height,up=0,left=0):
-    predictor_path = r"../assest/shape_predictor_68_face_landmarks.dat"
+    predictor_path = "../assest/shape_predictor_68_face_landmarks.dat"
     predictor = dlib.shape_predictor(predictor_path)
-
     for face in faces:
         landmarks = predictor(gray_frame, face)
 
@@ -88,8 +86,10 @@ def filter(image,gray_frame,faces,filter_image1,center,width,height,up=0,left=0)
 
         image[top_left[1]: top_left[1] + filter_height,
         top_left[0]: top_left[0] + filter_width,:] = final_filter
-
-        cv2.imshow("Frame", image)
+        print("filter1")
+        return image
+        # cv2.imshow("Frame", image)
+        # key = cv2.waitKey(0)
 
 def change_image(i):
     image_filtering_face(
@@ -102,4 +102,4 @@ def change_image(i):
         change_filter[i]['counte']
     )
 if __name__ == "__main__":
-    image_filtering_face(["../assest/tongue.png"],[57],[0.6],[1.2],[-25],[0])
+    image_filtering_face(["../assest/tongue.png"],"../assest/Face2.jpg",[57],[0.6],[1.2],[-25],[0])
