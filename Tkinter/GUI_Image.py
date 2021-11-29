@@ -7,63 +7,22 @@ from tkinter import *
 from PIL import Image, ImageTk
 from filters_image.image_filtering_face import image_filtering_face
 import cv2
+from tkinter_custom_button import TkinterCustomButton
 # root = tk.Tk()
 images = []
 count = 0
 next = False
 entry = ""
 ######### import Window ##########
-def render(image_withfilter,canvas):
-    image_withfilter = cv2.cvtColor(image_withfilter, cv2.COLOR_BGR2RGB)
-    photo = ImageTk.PhotoImage(image=Image.fromarray(image_withfilter))
-    canvas.create_image(0, 0, anchor="nw", image=photo)\
-            .grid(column=2, row=1, columnspan=2)
-def next_fun(path,canvas):
-    global count
 
-    images.append(image_filtering_face(
-        change_filter[count]['filter'],
-        path,
-        change_filter[count]['center'],
-        change_filter[count]['width'],
-        change_filter[count]['height'],
-        change_filter[count]['up'],
-        change_filter[count]['left'],
-        change_filter[count]['counte']
-    ))
-    count += 1
-    if count == len(change_filter)-1:
-        count = -1
-    render(images[-1],canvas)
 
-def submit(content):
-    global entry
-    entry1 = entry.get()
-    imgdir = f"../saved/{entry1}.png"
-    cv2.imwrite(imgdir, content)
-    entry.delete(0, END)
-def saving(content,newWindow):
-    global entry
-    sub_btn = tk.Button(newWindow, text='Submit', command=lambda: submit(content))
-    entry = tk.Entry(newWindow, width=20, bg="white")
-    entry.grid(row=1, column=2)
-    sub_btn.grid(row=2, column=2)
 
-def image_filter(path, canvas, newWindow):
-    print('yahia')
-    images.append(
-        image_filtering_face(["../assest/tongue.png"], path, [57], [0.6], [1.2], [-25], [0],
-                             [0]))
-    save = tk.Button(newWindow, text="save", padx=90, pady=10, fg="white", bg="#2596be",
-                     font=('arial', 15), command=lambda: saving(images[-1],newWindow))
-    save.grid(row=0, column=4)
-    next = tk.Button(newWindow, text="next", padx=90, pady=10, fg="white", bg="#2596be",
-                         font=('arial', 15), command=lambda: next_fun(path, canvas))
-    next.grid(row=0, column=3)
-    render(images[-1], canvas)
+# mainloop()
+
+
+
 def importWindowyahia(root):
     newWindow = Toplevel(root)
-    newWindow.geometry("1000x1000")
     def browse():
         global count
 
@@ -73,37 +32,99 @@ def importWindowyahia(root):
         images.append(filename)
         canvas = Canvas(newWindow)
         canvas.config(width=1000, height=500)
-        canvas.grid(row=1 , column=0,columnspan=3)
+        canvas.pack()
         img = ImageTk.PhotoImage(Image.open(images[0]))
 
         # images[0] = cv2.resize(images[0], (200, 200))
 
-        filtering = tk.Button(newWindow, text="Add Filter", padx=90, pady=10, fg="white", bg="#2596be",
-                              font=('arial', 15), command=lambda: image_filter(filename, canvas, newWindow))
-        filtering.grid(row=0, column=1)
+        filtering = TkinterCustomButton(master=newWindow,text="Add Filter", corner_radius=5,command=lambda: image_filter(filename, canvas, newWindow),
+                                        fg_color="#3319CB", hover_color="#005DFE", width=200,cursor="shuttle", text_font=("sans-serif", 20))
+        filtering.pack()
 
         test=canvas.create_image(0, 0, anchor="nw", image=img)
-        test.grid(row=1 , column=0,columnspan=3)
+        test.pack()
 
 
-        # mainloop()
 
     root.withdraw()
-    root.geometry("500x500")
     newWindow.title("New Window")
-    newWindow.geometry("500x500")
-    browse_button = tk.Button(newWindow, text="Browse", padx=90, pady=10, fg="white", bg="#2596be", font=('arial', 15),command=browse)
-    browse_button.grid(row=0 , column=0)
+    newWindow.geometry("960x630")
+    browse_button = TkinterCustomButton(master=newWindow,text="Browse", corner_radius=5, command=browse,
+                        fg_color="#3319CB", hover_color="#005DFE", width=200, cursor="shuttle",
+                        text_font=("sans-serif", 20))
+
+
+    browse_button.pack()
 
 
     ######## Back to previous window ########
     def on_closing():
         newWindow.destroy()
         root.deiconify()
-    backButton = tk.Button(newWindow, text="Previous Page", padx=90, pady=10, fg="white", bg="#2596be", font=('arial', 15), command=on_closing)
-    backButton.grid(row=0 , column=2)
+    image= PhotoImage(file ='../assest/back.png')
+    backButton = TkinterCustomButton(master=newWindow, corner_radius=15,
+                        command=on_closing,fg_color="#f1f1f1",hover_color="#c1c1c1", cursor="shuttle",image=image,width=50)
+
+    backButton.place(x=0,y=3)
 
     newWindow.protocol("WM_DELETE_WINDOW", on_closing)
 
+    def render(image_withfilter, canvas):
+        image_withfilter = cv2.cvtColor(image_withfilter, cv2.COLOR_BGR2RGB)
+        photo = ImageTk.PhotoImage(image=Image.fromarray(image_withfilter))
+        canvas.create_image(0, 0, anchor="nw", image=photo).pack()
 
+    def next_fun(path, canvas):
+        global count
+
+        images.append(image_filtering_face(
+            change_filter[count]['filter'],
+            path,
+            change_filter[count]['center'],
+            change_filter[count]['width'],
+            change_filter[count]['height'],
+            change_filter[count]['up'],
+            change_filter[count]['left'],
+            change_filter[count]['counte']
+        ))
+        count += 1
+        if count == len(change_filter) - 1:
+            count = -1
+        render(images[-1], canvas)
+
+    def submit(content,top):
+        global entry
+        entry1 = entry.get()
+        imgdir = f"../saved/{entry1}.png"
+        cv2.imwrite(imgdir, content)
+        entry.delete(0, END)
+        top.destroy()
+    def saving(content, newWindow):
+        pass
+    def image_filter(path, canvas, newWindow):
+        images.append(
+            image_filtering_face(["../assest/tongue.png"], path, [57], [0.6], [1.2], [-25], [0],
+                                 [0]))
+        save = TkinterCustomButton(master=newWindow, text="Save", corner_radius=5,
+                                   command=lambda: open_popup(images[-1],newWindow), fg_color="#3319CB",
+                                   hover_color="#005DFE", width=200, cursor="shuttle", text_font=("sans-serif", 20))
+        save.place(x=50, y=544)
+        next = TkinterCustomButton(master=newWindow, text="Next", corner_radius=5,
+                                   command=lambda: next_fun(path, canvas), fg_color="#3319CB",
+                                   hover_color="#005DFE", width=200, cursor="shuttle", text_font=("sans-serif", 20))
+        next.place(x=710, y=544)
+        render(images[-1], canvas)
+
+    def open_popup(content,newWindow):
+        top = Toplevel(newWindow)
+        top.geometry("250x150")
+        top.title("save")
+        global entry
+        sub_btn = TkinterCustomButton(master=top, text="Submit", corner_radius=5, command=lambda: submit(content,top),
+                                      fg_color="#3319CB",
+                                      hover_color="#005DFE", width=100,
+                                      cursor="shuttle", text_font=("sans-serif", 20))
+        entry = tk.Entry(top, width=20, bg="white")
+        entry.place(x=75, y=10)
+        sub_btn.place(x=75, y=50)
 
