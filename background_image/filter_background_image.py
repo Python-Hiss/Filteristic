@@ -18,8 +18,8 @@ def filter_background_image():
         color = tuple(map(int, add_color.split(',')))
 
     if type_filter == 1 :
-        backgroundImage(type_of_background,path_input_image,color,'../assest/background/back1.jpg')
+        backgroundImage(type_of_background,path_input_image,color,'../assest/background/back1.png')
     if type_filter == 2 :
-        backgroundImage(type_of_background,path_input_image,background_filter,color,'../assest/background/back2.jpg')
+        backgroundImage(type_of_background,path_input_image,background_filter,color,'../assest/background/back2.png')
 
 filter_background_image()
