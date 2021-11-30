@@ -50,8 +50,7 @@ def background_window(window_root):
             backgroundImage("color", images[-1], b[color_choosen.get()], '../assest/background/back1.png')
             render("../saved/temp.png")
         colorButton = TkinterCustomButton(master= window, text="Add color", corner_radius=5,
-                            command=apply_color, fg_color="#3319CB",
-                            hover_color="#005DFE", width=200,
+                            command=apply_color,fg_color="#FF5C58",hover_color="#ff544f", width=200,
                             cursor="shuttle", text_font=("sans-serif", 16))
         colorButton.place(x=510, y=550)
         m = StringVar()
@@ -102,14 +101,12 @@ def background_window(window_root):
         window.deiconify()
 
     importButton = TkinterCustomButton(master=window, text="Browse", corner_radius=5,
-                        command=browse, fg_color="#3319CB",
-                        hover_color="#005DFE", width=200,
+                        command=browse, fg_color="#FF5C58",hover_color="#ff544f", width=200,
                         cursor="shuttle", text_font=("sans-serif", 20))
     importButton.place(x=140, y= 10)
 
     web_link_Button = TkinterCustomButton(master=window, text="Download", corner_radius=5,
-                        command=add_from_web, fg_color="#3319CB",
-                        hover_color="#005DFE", width=200,
+                        command=add_from_web,fg_color="#FF5C58",hover_color="#ff544f", width=200,
                         cursor="shuttle", text_font=("sans-serif", 20))
     web_link_Button.place(x=660, y= 10)
 
@@ -126,8 +123,7 @@ def background_window(window_root):
         top.geometry("250x150")
         top.title("save")
         sub_btn = TkinterCustomButton(master=top, text="Submit", corner_radius=5, command=lambda: saving(top),
-                                      fg_color="#3319CB",
-                                      hover_color="#005DFE", width=100,
+                                      fg_color="#2da44e",hover_color="#24843f", width=100,
                                       cursor="shuttle", text_font=("sans-serif", 20))
 
         global entryy
@@ -137,14 +133,12 @@ def background_window(window_root):
 
     def common():
         typeButton = TkinterCustomButton(master=window, text="Apply Filter", corner_radius=5,
-                            command=get_filter_type, fg_color="#3319CB",
-                            hover_color="#005DFE", width=200,
+                            command=get_filter_type, fg_color="#FF5C58",hover_color="#ff544f", width=200,
                             cursor="shuttle", text_font=("sans-serif", 16))
         typeButton.place(x=140, y=550)
 
         saveButton = TkinterCustomButton(master=window, text="Save", corner_radius=5,
-                            command=lambda: open_popup(window), fg_color="#3319CB",
-                            hover_color="#005DFE", width=200,
+                            command=lambda: open_popup(window), fg_color="#FF5C58",hover_color="#ff544f", width=200,
                             cursor="shuttle", text_font=("sans-serif", 20))
         saveButton.place(x=400, y=600)
         type_choosen['values'] = ('image',

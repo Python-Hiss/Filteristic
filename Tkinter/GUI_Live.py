@@ -28,9 +28,8 @@ def camera(newWindow):
                        height=1,
                        width=20)
     inputtxt2.place(x=400,y=550)
-    printButton = TkinterCustomButton(master=newWindow,text="Add New Background", corner_radius=5, command=printInput, fg_color="#3319CB", hover_color="#005DFE",
-                        width=150,
-                        cursor="shuttle", text_font=("sans-serif", 10))
+    printButton = TkinterCustomButton(master=newWindow,text="Add New Background", corner_radius=5, command=printInput,
+                                      fg_color="#FF5C58",hover_color="#ff544f",width=150,cursor="shuttle", text_font=("sans-serif", 10))
     printButton.place(x=408,y=570)
 
     def nextback():
@@ -56,11 +55,13 @@ def camera(newWindow):
 
 
 
-    importButton = TkinterCustomButton(master=newWindow,text="Next background", corner_radius=5, command=nextback, fg_color="#3319CB", hover_color="#005DFE",
+    importButton = TkinterCustomButton(master=newWindow,text="Next background", corner_radius=5, command=nextback,
+                                       fg_color="#FF5C58",hover_color="#ff544f",
                         width=300,
                         cursor="shuttle", text_font=("sans-serif", 20))
     importButton.place(x=500,y=490)
-    importButton = TkinterCustomButton(master=newWindow,text="Next filter", corner_radius=5, command=nextWindow, fg_color="#3319CB", hover_color="#005DFE",
+    importButton = TkinterCustomButton(master=newWindow,text="Next filter", corner_radius=5, command=nextWindow,
+                                       fg_color="#FF5C58",hover_color="#ff544f",
                         width=300, cursor="shuttle", text_font=("sans-serif", 20))
     importButton.place(x=160,y=490)
     image = tk.PhotoImage(file='../assest/camera.png')
@@ -127,9 +128,8 @@ def camera(newWindow):
                            width=20)
 
         inputtxt.pack()
-        printButton = TkinterCustomButton(master=top,text="Save Image", corner_radius=5, command=lambda: print_path2(inputtxt, frame), fg_color="#3319CB",
-                            hover_color="#005DFE", width=300,
-                            cursor="shuttle", text_font=("sans-serif", 20))
+        printButton = TkinterCustomButton(master=top,text="Save Image", corner_radius=5, command=lambda: print_path2(inputtxt, frame), fg_color="#2da44e",
+                                          hover_color="#24843f", width=150,cursor="shuttle", text_font=("sans-serif", 20))
         printButton.pack()
 
 # newWindow.mainloop()
