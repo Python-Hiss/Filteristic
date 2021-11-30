@@ -30,9 +30,17 @@ def background_window(window_root):
         else:
             backgroundImage(filter_type, images[-1], 0, '../assest/background/back1.png')
             render("../saved/temp.png")
+
     def on_closing():
         window.destroy()
         window_root.deiconify()
+
+    image = PhotoImage(file='../assest/back.png')
+    backButton = TkinterCustomButton(master=window, corner_radius=15,
+                                     command=on_closing, fg_color="#f1f1f1", hover_color="#c1c1c1", cursor="shuttle",
+                                     image=image, width=50)
+
+    backButton.place(x=0, y=3)
 
     window.protocol("WM_DELETE_WINDOW", on_closing)
 
