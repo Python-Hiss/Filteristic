@@ -2,66 +2,73 @@ import tkinter as tk
 from PIL import ImageTk, Image
 import cv2
 from filters_live.video_filtering_face import video_filtering_face,change_filter
+from tkinter_custom_button import TkinterCustomButton
 from tkinter import Tk
 from tkinter.ttk import Frame, Label
 from background_live.request_image import add_path,check_image
 
 save = False
-count_filter = 0
-count_back = 1
+count_filter = -1
+count_back = 0
 show_filter_live = False
 show_background_live = False
 
 def camera(newWindow):
     app = Frame(newWindow)
-    app.grid()
+    app.pack()
     lmain = Label(app)
-    lmain.grid()
+    lmain.pack()
+
+
 
     def printInput():
         add_path(inputtxt2.get(1.0, "end-1c"))
 
     inputtxt2 = tk.Text(newWindow,
-                       height=5,
+                       height=1,
                        width=20)
-    inputtxt2.grid(row=0, column=1)
-    printButton = tk.Button(newWindow,
-                            text = "Print",
-                            command = printInput)
-    printButton.grid(row=0, column=1)
+    inputtxt2.place(x=400,y=550)
+    printButton = TkinterCustomButton(master=newWindow,text="Add New Background", corner_radius=5, command=printInput, fg_color="#3319CB", hover_color="#005DFE",
+                        width=150,
+                        cursor="shuttle", text_font=("sans-serif", 10))
+    printButton.place(x=408,y=570)
 
     def nextback():
-        global count_back,show_background_live
+        global count_back, show_background_live
         len_image = check_image()
         if count_back == len_image:
             show_background_live = False
-            count_back=1
+            count_back = 0
         else:
+            count_back += 1
             show_background_live = True
-            count_back+=1
+
     def nextWindow():
-         global count_filter,show_filter_live
-         if count_filter == len(change_filter)-1:
-             show_filter_live = False
-             count_filter= -1
-         else:
-             show_filter_live = True
-             count_filter+=1
+        global count_filter, show_filter_live
+        if count_filter == len(change_filter) - 1:
+            show_filter_live = False
+            count_filter = -1
+        else:
+            count_filter += 1
+            show_filter_live = True
 
-    def saveWindow():
-        global save
-        save =True
+    # def saveWindow():
 
 
-    importButton = tk.Button(newWindow,text="Next background", padx=90, pady=10, fg="white", bg="#2596be", font=('arial', 15),
-                             command=nextback)
-    importButton.grid(row=1, column=0)
-    importButton = tk.Button(newWindow,text="Next filter", padx=90, pady=10, fg="white", bg="#2596be", font=('arial', 15),
-                             command=nextWindow)
-    importButton.grid(row=1, column=1)
-    importButton = tk.Button(newWindow,text='capture and save', padx=90, pady=10, fg="white", bg="#2596be", font=('arial', 15),
-                             command=saveWindow)
-    importButton.grid(row=2, column=0)
+
+    importButton = TkinterCustomButton(master=newWindow,text="Next background", corner_radius=5, command=nextback, fg_color="#3319CB", hover_color="#005DFE",
+                        width=300,
+                        cursor="shuttle", text_font=("sans-serif", 20))
+    importButton.place(x=500,y=490)
+    importButton = TkinterCustomButton(master=newWindow,text="Next filter", corner_radius=5, command=nextWindow, fg_color="#3319CB", hover_color="#005DFE",
+                        width=300, cursor="shuttle", text_font=("sans-serif", 20))
+    importButton.place(x=160,y=490)
+    image = tk.PhotoImage(file='../assest/camera.png')
+    importButton = TkinterCustomButton(master=newWindow, corner_radius=20,
+                                       command=lambda:open_popup(newWindow), fg_color="#f1f1f1", hover_color="#c1c1c1", cursor="shuttle",
+                                       image=image,
+                                       width=50)
+    importButton.place(x=740,y=431)
 
     def video_stream3():
 
@@ -97,25 +104,33 @@ def camera(newWindow):
 
     def print_path2(inputtxt, frame):
         name = inputtxt.get(1.0, "end-1c")
-        print(name)
         img_name = f"../saved/{name}.png"
         cv2.imwrite(img_name, frame)
-    def path_name(frame):
+        inputtxt.delete('1.0', tk.END)
 
-        inputtxt = tk.Text(newWindow,
-                           height=5,
-                           width=20)
-
-        inputtxt.grid(row=1, column=2)
-
-        printButton = tk.Button(newWindow,
-                                text="save image",
-                                command=lambda: print_path2(inputtxt, frame))
-        printButton.grid(row=1, column=2)
-
+    newWindow.geometry("960x630")
     newWindow.bind("<Right>", lambda x: nextWindow())
     newWindow.bind("<Left>", lambda x: nextback())
     video_stream3()
+    top =''
+    def open_popup(newWindow):
+        global top
+        top = tk.Toplevel(newWindow)
+        top.geometry("250x150")
+        top.title("save")
+        global save
+        save = True
+    def path_name(frame):
+        global top
+        inputtxt = tk.Text(top,
+                           height=5,
+                           width=20)
+
+        inputtxt.pack()
+        printButton = TkinterCustomButton(master=top,text="Save Image", corner_radius=5, command=lambda: print_path2(inputtxt, frame), fg_color="#3319CB",
+                            hover_color="#005DFE", width=300,
+                            cursor="shuttle", text_font=("sans-serif", 20))
+        printButton.pack()
 
 # newWindow.mainloop()
 

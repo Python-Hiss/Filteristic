@@ -71,10 +71,7 @@ def videoWindow():
     cameraWindow = Toplevel(root)
     root.withdraw()
     cameraWindow.title("New Window")
-    cameraWindow.geometry("700x700")
-    Label(cameraWindow,
-          text="This is a new window").grid()
-
+    # cameraWindow.geometry("700x700")
     camera(cameraWindow)
 
 
@@ -83,8 +80,12 @@ def videoWindow():
         cameraWindow.destroy()
         root.deiconify()
 
-    backButton = tk.Button(cameraWindow, text="Previous Page", padx=90, pady=10, fg="white", bg="#2596be", font=('arial', 15), command=on_closing)
-    backButton.grid()
+    image= PhotoImage(file ='../assest/back.png')
+    backButton = TkinterCustomButton(master=cameraWindow, corner_radius=15,
+                        command=on_closing, fg_color="#f1f1f1", hover_color="#c1c1c1", cursor="shuttle", image=image,
+                        width=50)
+    backButton.place(x=0,y=3)
+
 
     cameraWindow.protocol("WM_DELETE_WINDOW", on_closing)
 

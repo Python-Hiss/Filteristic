@@ -146,3 +146,4 @@ def background_window(window_root):
 
         type_choosen.place(x=350, y=559)
         type_choosen.current(2)
+
