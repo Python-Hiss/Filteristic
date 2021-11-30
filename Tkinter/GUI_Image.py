@@ -38,7 +38,7 @@ def importWindowyahia(root):
         img_label.place(x=228, y=40)
 
         filtering = TkinterCustomButton(master=newWindow,text="Add Filter", corner_radius=5,command=lambda: image_filter(filename, newWindow),
-                                        fg_color="#3319CB", hover_color="#005DFE", width=200,cursor="shuttle", text_font=("sans-serif", 20))
+                                        fg_color="#FF5C58",hover_color="#ff544f", width=200,cursor="shuttle", text_font=("sans-serif", 20))
         filtering.place(x=380, y=550)
 
 
@@ -48,7 +48,7 @@ def importWindowyahia(root):
     newWindow.title("New Window")
     newWindow.geometry("960x630")
     browse_button = TkinterCustomButton(master=newWindow,text="Browse", corner_radius=5, command=browse,
-                        fg_color="#3319CB", hover_color="#005DFE", width=200, cursor="shuttle",
+                        fg_color="#FF5C58",hover_color="#ff544f", width=200, cursor="shuttle",
                         text_font=("sans-serif", 20))
 
 
@@ -110,12 +110,10 @@ def importWindowyahia(root):
             image_filtering_face(["../assest/tongue.png"], path, [57], [0.6], [1.2], [-25], [0],
                                  [0]))
         save = TkinterCustomButton(master=newWindow, text="Save", corner_radius=5,
-                                   command=lambda: open_popup(images[-1],newWindow), fg_color="#3319CB",
-                                   hover_color="#005DFE", width=200, cursor="shuttle", text_font=("sans-serif", 20))
+                                   command=lambda: open_popup(images[-1],newWindow), fg_color="#FF5C58",hover_color="#ff544f", width=200, cursor="shuttle", text_font=("sans-serif", 20))
         save.place(x=50, y=550)
         next = TkinterCustomButton(master=newWindow, text="Next", corner_radius=5,
-                                   command=lambda: next_fun(path), fg_color="#3319CB",
-                                   hover_color="#005DFE", width=200, cursor="shuttle", text_font=("sans-serif", 20))
+                                   command=lambda: next_fun(path), fg_color="#FF5C58",hover_color="#ff544f", width=200, cursor="shuttle", text_font=("sans-serif", 20))
         newWindow.bind("<Right>", lambda x: next_fun(path))
         next.place(x=710, y=550)
         render(images[-1])
@@ -126,8 +124,7 @@ def importWindowyahia(root):
         top.title("save")
         global entry
         sub_btn = TkinterCustomButton(master=top, text="Submit", corner_radius=5, command=lambda: submit(content,top),
-                                      fg_color="#3319CB",
-                                      hover_color="#005DFE", width=100,
+                                      fg_color="#2da44e",hover_color="#24843f", width=100,
                                       cursor="shuttle", text_font=("sans-serif", 20))
         entry = tk.Entry(top, width=20, bg="white")
         entry.place(x=75, y=10)

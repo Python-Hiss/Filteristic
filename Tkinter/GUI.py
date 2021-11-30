@@ -38,16 +38,15 @@ def importWindow():
     Label(importWindow,text="Editing Type", font=("Arial", 25)).pack()
     Label(importWindow, text="", font=("Arial", 25)).pack()
 
-    filterButton = TkinterCustomButton(master =importWindow, text="Add Filter", corner_radius=5, command= lambda: importFilterWindow(importWindow), fg_color="#3319CB",
-                                    hover_color="#005DFE", width=300,
+    filterButton = TkinterCustomButton(master =importWindow, text="Add Filter", corner_radius=5, command= lambda: importFilterWindow(importWindow),
+                                       fg_color="#FF5C58", hover_color="#ff544f", width=300,
                                     cursor="shuttle", text_font=("sans-serif", 20))
     filterButton.pack()
 
     Label(importWindow, text="", font=("Arial", 25)).pack()
 
     backgroundButton = TkinterCustomButton(master=importWindow, text="Add Background", corner_radius=5, command=lambda: backgroundWindow(importWindow),
-                                       fg_color="#3319CB",
-                                       hover_color="#005DFE", width=300,
+                                           fg_color="#FF5C58", hover_color="#ff544f", width=300,
                                        cursor="shuttle", text_font=("sans-serif", 20))
 
     backgroundButton.pack()
@@ -96,11 +95,11 @@ root.geometry("960x630")
 image= PhotoImage(file ='../assest/2.png',width=960,height=540)
 Label(root, image= image).grid(column=0,row=0,columnspan=2)
 Label().grid(column=0,row=1)
-importButton =TkinterCustomButton(text="Image", corner_radius=5, command=importWindow,fg_color="#3319CB",hover_color="#005DFE",width=300,
+importButton =TkinterCustomButton(text="Image", corner_radius=5, command=importWindow,fg_color="#FF5C58",hover_color="#ff544f",width=300,
                                   cursor="shuttle",text_font=("sans-serif", 20))
 importButton.grid(row=2,column=0)
 Label().grid(column=1,row=1)
-cameraButton= TkinterCustomButton(text="Camera", corner_radius=5, command=videoWindow,fg_color="#3319CB",hover_color="#005DFE",width=300,
+cameraButton= TkinterCustomButton(text="Camera", corner_radius=5, command=videoWindow,fg_color="#FF5C58",hover_color="#ff544f",width=300,
                                   cursor="shuttle",text_font=("sans-serif", 20))
 # cameraButton.place(relx=0.5, rely=0.5, anchor=CENTER)
 cameraButton.grid(row=2,column=1)
