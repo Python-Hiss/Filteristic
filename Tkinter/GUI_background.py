@@ -1,121 +1,149 @@
 import os
 from tkinter import *
 from tkinter import ttk, filedialog
-import cv2
 import requests
 from PIL import Image, ImageTk
 from background_image.backgorund_image import backgroundImage
-root = Tk()
+from tkinter_custom_button import TkinterCustomButton
 images = []
 filter_type = ""
-
 path_name = ""
-def get_filter_type():
 
-    global filter_type, path_name
-    filter_type = type_choosen.get()
-    if filter_type == "color":
-        apply()
-    elif filter_type == "image":
+def background_window(window_root):
+    window = Toplevel(window_root)
+    window_root.withdraw()
+    window.title("Import Window")
+    window.geometry("1000x700")
+    def get_filter_type():
+
+        global filter_type, path_name
+        filter_type = type_choosen.get()
+        if filter_type == "color":
+            apply()
+        elif filter_type == "image":
+            filename = filedialog.askopenfilename(title="select File",
+                                                  filetypes=(
+                                                      ("jpeg files", "*.jpg"), ("all files", "*.*"),
+                                                      ('png files', '*.png')))
+            backgroundImage(filter_type, images[-1], 0, filename)
+            render("../saved/temp.png")
+        else:
+            backgroundImage(filter_type, images[-1], 0, '../assest/background/back1.png')
+            render("../saved/temp.png")
+    def on_closing():
+        window.destroy()
+        window_root.deiconify()
+
+    window.protocol("WM_DELETE_WINDOW", on_closing)
+
+    def apply():
+        def apply_color():
+            b = {'Black':(0,0,0),'Green':(0,255,0),'White':(255,255,255),'Blue':(0,0,255),'Red':(255,0,0)}
+            backgroundImage("color", images[-1], b[color_choosen.get()], '../assest/background/back1.png')
+            render("../saved/temp.png")
+        colorButton = TkinterCustomButton(master= window, text="Add color", corner_radius=5,
+                            command=apply_color, fg_color="#3319CB",
+                            hover_color="#005DFE", width=200,
+                            cursor="shuttle", text_font=("sans-serif", 16))
+        colorButton.place(x=510, y=550)
+        m = StringVar()
+        color_choosen = ttk.Combobox(window, width=20, textvariable=m)
+        color_choosen['values'] = ('Black',
+                                   'Green',
+                                   'White',
+                                   'Blue',
+                                   'Red')
+
+        color_choosen.place(x=720, y=559)
+        color_choosen.current(2)
+
+
+    def add_from_web():
+        img_url = entry.get("1.0","end-1c")
+        r = requests.get(img_url)
+        with open("../saved/web.png", 'wb') as f:
+            f.write(r.content)
+        images.append("../saved/web.png")
+        render(images[-1])
+        common()
+
+
+    def render(image_withfilter):
+        img = Image.open(image_withfilter)
+        img = img.resize((720, 480))
+        img = ImageTk.PhotoImage(img)
+        img_label = Label(window, image=img)
+        img_label.photo = img
+        img_label.place(x=140, y=60)
+
+    def browse():
         filename = filedialog.askopenfilename(title="select File",
                                               filetypes=(
-                                                  ("jpeg files", "*.jpg"), ("all files", "*.*"),
-                                                  ('png files', '*.png')))
-        backgroundImage(filter_type, images[-1], 0, filename)
-        render("../saved/temp.png")
-    else:
-        backgroundImage(filter_type, images[-1], 0, '../assest/background/back1.png')
-        render("../saved/temp.png")
+                                              ("jpeg files", "*.jpg"), ("all files", "*.*"), ('png files', '*.png')))
+        images.append(filename)
+        render(images[-1])
+        common()
+
+    def saving(top):
+        os.rename("../saved/temp.png", f"../saved/{entryy.get()}.png")
+        entryy.delete(0,END)
+        on_closing(top)
+
+    def on_closing(top):
+        top.destroy()
+        window.deiconify()
+
+    importButton = TkinterCustomButton(master=window, text="Browse", corner_radius=5,
+                        command=browse, fg_color="#3319CB",
+                        hover_color="#005DFE", width=200,
+                        cursor="shuttle", text_font=("sans-serif", 20))
+    importButton.place(x=140, y= 10)
+
+    web_link_Button = TkinterCustomButton(master=window, text="Download", corner_radius=5,
+                        command=add_from_web, fg_color="#3319CB",
+                        hover_color="#005DFE", width=200,
+                        cursor="shuttle", text_font=("sans-serif", 20))
+    web_link_Button.place(x=660, y= 10)
+
+    entry = Text(window, width=27, height=2, bg="white")
+    entry.place(x=435, y= 13)
+    entry.insert(END, 'Enter image link from web')
 
 
-def apply():
-    def apply_color():
-        b = {'Black':(0,0,0),'Green':(0,255,0),'White':(255,255,255),'Blue':(0,0,255),'Red':(255,0,0)}
-        backgroundImage("color", images[-1], b[color_choosen.get()], '../assest/background/back1.png')
-        render("../saved/temp.png")
-    colorButton = Button(text="Add color", padx=10, pady=10, fg="white", bg="#2596be", font=('arial', 15),
-                         command=apply_color)
-    colorButton.grid(row=4, column=3)
-    m = StringVar()
-    color_choosen = ttk.Combobox(width=20, textvariable=m)
-    color_choosen['values'] = ('Black',
-                               'Green',
-                               'White',
-                               'Blue',
-                               'Red')
+    n = StringVar()
+    type_choosen = ttk.Combobox(window, width=20, textvariable=n)
 
-    color_choosen.grid(column=2, row=4)
-    color_choosen.current(1)
+    def open_popup(newWindow):
+        top = Toplevel(newWindow)
+        top.geometry("250x150")
+        top.title("save")
+        sub_btn = TkinterCustomButton(master=top, text="Submit", corner_radius=5, command=lambda: saving(top),
+                                      fg_color="#3319CB",
+                                      hover_color="#005DFE", width=100,
+                                      cursor="shuttle", text_font=("sans-serif", 20))
 
+        global entryy
+        entryy = Entry(top, width=20, bg="white")
+        entryy.place(x=65, y=13)
+        sub_btn.place(x=75, y=50)
 
+    def common():
+        typeButton = TkinterCustomButton(master=window, text="Apply Filter", corner_radius=5,
+                            command=get_filter_type, fg_color="#3319CB",
+                            hover_color="#005DFE", width=200,
+                            cursor="shuttle", text_font=("sans-serif", 16))
+        typeButton.place(x=140, y=550)
 
+        saveButton = TkinterCustomButton(master=window, text="Save", corner_radius=5,
+                            command=lambda: open_popup(window), fg_color="#3319CB",
+                            hover_color="#005DFE", width=200,
+                            cursor="shuttle", text_font=("sans-serif", 20))
+        saveButton.place(x=400, y=600)
+        type_choosen['values'] = ('image',
+                                  'gray',
+                                  'blur',
+                                  'color',)
 
+        type_choosen.place(x=350, y=559)
+        type_choosen.current(2)
 
-
-def add_from_web():
-    img_url = entry.get()
-    entry.delete(0, END)
-    r = requests.get(img_url)
-    with open("../saved/web.png", 'wb') as f:
-        f.write(r.content)
-    images.append("../saved/web.png")
-    render(images[-1])
-
-
-
-def render(image_withfilter):
-    img = Image.open(image_withfilter)
-    img = img.resize((500, 500))
-    img = ImageTk.PhotoImage(img)
-    img_label = Label(root, image=img)
-    img_label.photo = img
-    img_label.grid(row=0, column=0)
-
-def browse():
-    filename = filedialog.askopenfilename(title="select File",
-                                          filetypes=(
-                                          ("jpeg files", "*.jpg"), ("all files", "*.*"), ('png files', '*.png')))
-    images.append(filename)
-    render(images[-1])
-
-
-def saving():
-    os.rename("../saved/temp.png", f"../saved/{entryy.get()}.png")
-    entryy.delete(0,END)
-
-
-importButton = Button(text="Import", padx=10, pady=10, fg="white", bg="#2596be", font=('arial', 15), command=browse)
-importButton.grid(row=0, column=3)
-
-web_link_Button = Button(text="import web link", padx=10, pady=10, fg="white", bg="#2596be", font=('arial',15), command=add_from_web)
-web_link_Button.grid(row=1, column=2)
-
-typeButton = Button(text="Apply Filter", padx=10, pady=10, fg="white", bg="#2596be", font=('arial', 10), command=get_filter_type)
-typeButton.grid(row=2, column=3)
-
-saveButton = Button(text="Save", padx=10, pady=10, fg="white", bg="#2596be", font=('arial',15), command=saving)
-saveButton.grid(row=3, column=2)
-
-entry = Entry(width=20, bg="white")
-entry.grid(row=1, column=1)
-entryy = Entry(width=20, bg="white")
-entryy.grid(row=3, column=1)
-
-# label
-ttk.Label(text="Select filter type :",
-          font=("Times New Roman", 10)).grid(column=1,
-                                             row=2, padx=10, pady=10)
-
-n = StringVar()
-type_choosen = ttk.Combobox(width=20, textvariable=n)
-
-# Adding combobox drop down list
-type_choosen['values'] = ('image',
-                          'gray',
-                          'blur',
-                          'color',)
-
-type_choosen.grid(column=2, row=2)
-type_choosen.current(2)
-
-root.mainloop()

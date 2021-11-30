@@ -19,6 +19,8 @@ def camera(newWindow):
     lmain = Label(app)
     lmain.pack()
 
+
+
     def printInput():
         add_path(inputtxt2.get(1.0, "end-1c"))
 
@@ -123,11 +125,13 @@ def camera(newWindow):
         inputtxt = tk.Text(top,
                            height=5,
                            width=20)
+
         inputtxt.pack()
         printButton = TkinterCustomButton(master=top,text="Save Image", corner_radius=5, command=lambda: print_path2(inputtxt, frame), fg_color="#3319CB",
                             hover_color="#005DFE", width=300,
                             cursor="shuttle", text_font=("sans-serif", 20))
         printButton.pack()
+
 # newWindow.mainloop()
 
 
