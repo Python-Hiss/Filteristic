@@ -10,7 +10,7 @@ import cv2
 from tkinter_custom_button import TkinterCustomButton
 # root = tk.Tk()
 images = []
-count = 0
+count = 1
 next = False
 entry = ""
 ######### import Window ##########
@@ -92,7 +92,7 @@ def importWindowyahia(root):
             change_filter[count]['counte']
         ))
         count += 1
-        if count == len(change_filter) - 1:
+        if count == len(change_filter):
             count = 0
         render(images[-1])
 
@@ -107,8 +107,16 @@ def importWindowyahia(root):
         pass
     def image_filter(path, newWindow):
         images.append(
-            image_filtering_face(["../assest/tongue.png"], path, [57], [0.6], [1.2], [-25], [0],
-                                 [0]))
+            image_filtering_face(
+                change_filter[0]['filter'],
+                path,
+                change_filter[0]['center'],
+                change_filter[0]['width'],
+                change_filter[0]['height'],
+                change_filter[0]['up'],
+                change_filter[0]['left'],
+                change_filter[0]['counte']
+            ))
         save = TkinterCustomButton(master=newWindow, text="Save", corner_radius=5,
                                    command=lambda: open_popup(images[-1],newWindow), fg_color="#3319CB",
                                    hover_color="#005DFE", width=200, cursor="shuttle", text_font=("sans-serif", 20))

@@ -22,7 +22,8 @@ def image_filtering_face(path_filter,path_img,center,width,height,up,left,counte
     if faces:
         # try:
         for i in range(len(path_filter)):
-            return filter(image,gray_image,faces,filter_image[i],center[i],width[i],height[i],up[i],left[i])
+            test = filter(image,gray_image,faces,filter_image[i],center[i],width[i],height[i],up[i],left[i])
+        return test
         # except:
         #     image = cv2.imread(path_img)
 
@@ -69,15 +70,3 @@ def filter(image,gray_frame,faces,filter_image1,center,width,height,up=0,left=0)
         # cv2.imshow("Frame", image)
         # key = cv2.waitKey(0)
 
-def change_image(i):
-    image_filtering_face(
-        change_filter[i]['filter'],
-        change_filter[i]['center'],
-        change_filter[i]['width'],
-        change_filter[i]['height'],
-        change_filter[i]['up'],
-        change_filter[i]['left'],
-        change_filter[i]['counte']
-    )
-if __name__ == "__main__":
-    image_filtering_face(["../assest/tongue.png"],"../assest/Face2.jpg",[57],[0.6],[1.2],[-25],[0])
