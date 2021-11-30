@@ -18,8 +18,6 @@ def camera(newWindow):
     lmain = Label(app)
     lmain.grid()
 
-
-
     def printInput():
         add_path(inputtxt2.get(1.0, "end-1c"))
 
@@ -115,9 +113,8 @@ def camera(newWindow):
                                 command=lambda: print_path2(inputtxt, frame))
         printButton.grid(row=1, column=2)
 
-
-
-
+    newWindow.bind("<Right>", lambda x: nextWindow())
+    newWindow.bind("<Left>", lambda x: nextback())
     video_stream3()
 
 # newWindow.mainloop()

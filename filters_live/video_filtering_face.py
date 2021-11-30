@@ -7,9 +7,6 @@ import mediapipe as mp
 
 import os
 cap = cv2.VideoCapture(0)
-_, frame = cap.read()
-rows, cols, _ = frame.shape
-filter1 = np.zeros((rows, cols), np.uint8)
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("../filters_live/shape_predictor_68_face_landmarks.dat")
 counte=0
@@ -19,8 +16,10 @@ def video_filtering_face(path,center,width,height,up,left,path_back,blur,filter_
     for i in path:
         filter_image.append(cv2.imread(i))
     #
-    filter1 = np.zeros((rows, cols), np.uint8)
     _, frame = cap.read()
+    rows, cols, _ = frame.shape
+    filter1 = np.zeros((rows, cols), np.uint8)
+
     filter1.fill(0)
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = detector(frame)
@@ -86,7 +85,7 @@ def change_image(i):
     )
 
 mp_selfie_segmentation = mp.solutions.selfie_segmentation
-fsize = (520, 720)
+fsize = (480, 640)
 def background(frame,path,blur =1):
 
 

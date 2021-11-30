@@ -30,19 +30,17 @@ def importWindowyahia(root):
         filename = filedialog.askopenfilename(title="select File",
                                               filetypes = (("jpeg files","*.jpg"),("all files","*.*"),('png files', '*.png')))
         images.append(filename)
-        canvas = Canvas(newWindow)
-        canvas.config(width=1000, height=500)
-        canvas.pack()
-        img = ImageTk.PhotoImage(Image.open(images[0]))
+        img = Image.open(images[-1])
+        img = img.resize((500, 500))
+        img = ImageTk.PhotoImage(img)
+        img_label = Label(newWindow, image=img)
+        img_label.photo = img
+        img_label.place(x=228, y=40)
 
-        # images[0] = cv2.resize(images[0], (200, 200))
-
-        filtering = TkinterCustomButton(master=newWindow,text="Add Filter", corner_radius=5,command=lambda: image_filter(filename, canvas, newWindow),
+        filtering = TkinterCustomButton(master=newWindow,text="Add Filter", corner_radius=5,command=lambda: image_filter(filename, newWindow),
                                         fg_color="#3319CB", hover_color="#005DFE", width=200,cursor="shuttle", text_font=("sans-serif", 20))
-        filtering.pack()
+        filtering.place(x=380, y=550)
 
-        test=canvas.create_image(0, 0, anchor="nw", image=img)
-        test.pack()
 
 
 
@@ -69,12 +67,18 @@ def importWindowyahia(root):
 
     newWindow.protocol("WM_DELETE_WINDOW", on_closing)
 
-    def render(image_withfilter, canvas):
+    def render(image_withfilter):
         image_withfilter = cv2.cvtColor(image_withfilter, cv2.COLOR_BGR2RGB)
-        photo = ImageTk.PhotoImage(image=Image.fromarray(image_withfilter))
-        canvas.create_image(0, 0, anchor="nw", image=photo).pack()
+        img = Image.fromarray(image_withfilter)
+        img = img.resize((500, 500))
+        img = ImageTk.PhotoImage(img)
+        img_label = Label(newWindow, image=img)
+        img_label.photo = img
+        img_label.place(x=228, y=40)
+        # photo = ImageTk.PhotoImage(image=Image.fromarray(image_withfilter))
+        # canvas.create_image(0, 0, anchor="nw", image=photo)
 
-    def next_fun(path, canvas):
+    def next_fun(path):
         global count
 
         images.append(image_filtering_face(
@@ -89,8 +93,8 @@ def importWindowyahia(root):
         ))
         count += 1
         if count == len(change_filter) - 1:
-            count = -1
-        render(images[-1], canvas)
+            count = 0
+        render(images[-1])
 
     def submit(content,top):
         global entry
@@ -101,19 +105,20 @@ def importWindowyahia(root):
         top.destroy()
     def saving(content, newWindow):
         pass
-    def image_filter(path, canvas, newWindow):
+    def image_filter(path, newWindow):
         images.append(
             image_filtering_face(["../assest/tongue.png"], path, [57], [0.6], [1.2], [-25], [0],
                                  [0]))
         save = TkinterCustomButton(master=newWindow, text="Save", corner_radius=5,
                                    command=lambda: open_popup(images[-1],newWindow), fg_color="#3319CB",
                                    hover_color="#005DFE", width=200, cursor="shuttle", text_font=("sans-serif", 20))
-        save.place(x=50, y=544)
+        save.place(x=50, y=550)
         next = TkinterCustomButton(master=newWindow, text="Next", corner_radius=5,
-                                   command=lambda: next_fun(path, canvas), fg_color="#3319CB",
+                                   command=lambda: next_fun(path), fg_color="#3319CB",
                                    hover_color="#005DFE", width=200, cursor="shuttle", text_font=("sans-serif", 20))
-        next.place(x=710, y=544)
-        render(images[-1], canvas)
+        newWindow.bind("<Right>", lambda x: next_fun(path))
+        next.place(x=710, y=550)
+        render(images[-1])
 
     def open_popup(content,newWindow):
         top = Toplevel(newWindow)
@@ -127,4 +132,3 @@ def importWindowyahia(root):
         entry = tk.Entry(top, width=20, bg="white")
         entry.place(x=75, y=10)
         sub_btn.place(x=75, y=50)
-
