@@ -8,8 +8,8 @@ from tkinter.ttk import Frame, Label
 from background_live.request_image import add_path,check_image
 
 save = False
-count_filter = 0
-count_back = 1
+count_filter = -1
+count_back = 0
 show_filter_live = False
 show_background_live = False
 
@@ -32,22 +32,23 @@ def camera(newWindow):
     printButton.place(x=408,y=570)
 
     def nextback():
-        global count_back,show_background_live
+        global count_back, show_background_live
         len_image = check_image()
         if count_back == len_image:
             show_background_live = False
-            count_back=1
+            count_back = 0
         else:
+            count_back += 1
             show_background_live = True
-            count_back+=1
+
     def nextWindow():
-         global count_filter,show_filter_live
-         if count_filter == len(change_filter)-1:
-             show_filter_live = False
-             count_filter= -1
-         else:
-             show_filter_live = True
-             count_filter+=1
+        global count_filter, show_filter_live
+        if count_filter == len(change_filter) - 1:
+            show_filter_live = False
+            count_filter = -1
+        else:
+            count_filter += 1
+            show_filter_live = True
 
     # def saveWindow():
 
@@ -101,30 +102,32 @@ def camera(newWindow):
 
     def print_path2(inputtxt, frame):
         name = inputtxt.get(1.0, "end-1c")
-        print(name)
         img_name = f"../saved/{name}.png"
         cv2.imwrite(img_name, frame)
-    def path_name(frame):
+        inputtxt.delete('1.0', tk.END)
 
-        inputtxt = tk.Text(newWindow,
-                           height=5,
-                           width=20)
-        inputtxt.pack()
-        printButton = TkinterCustomButton(master=newWindow,text="Save Image", corner_radius=5, command=lambda: print_path2(inputtxt, frame), fg_color="#3319CB",
-                            hover_color="#005DFE", width=300,
-                            cursor="shuttle", text_font=("sans-serif", 20))
-        printButton.pack()
     newWindow.geometry("960x630")
     newWindow.bind("<Right>", lambda x: nextWindow())
     newWindow.bind("<Left>", lambda x: nextback())
     video_stream3()
+    top =''
     def open_popup(newWindow):
+        global top
         top = tk.Toplevel(newWindow)
         top.geometry("250x150")
         top.title("save")
         global save
         save = True
-
+    def path_name(frame):
+        global top
+        inputtxt = tk.Text(top,
+                           height=5,
+                           width=20)
+        inputtxt.pack()
+        printButton = TkinterCustomButton(master=top,text="Save Image", corner_radius=5, command=lambda: print_path2(inputtxt, frame), fg_color="#3319CB",
+                            hover_color="#005DFE", width=300,
+                            cursor="shuttle", text_font=("sans-serif", 20))
+        printButton.pack()
 # newWindow.mainloop()
 
 
