@@ -38,6 +38,7 @@ def videoWindow():
     def on_closing():
         cameraWindow.destroy()
         root.deiconify()
+
     backButton = tk.Button(cameraWindow, text="Previous Page", padx=90, pady=10, fg="white", bg="#2596be", font=('arial', 15), command=on_closing)
     backButton.grid()
 
