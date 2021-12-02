@@ -46,7 +46,7 @@ def background_window(window_root):
 
     def apply():
         def apply_color():
-            b = {'Black':(0,0,0),'Green':(0,255,0),'White':(255,255,255),'Blue':(0,0,255),'Red':(255,0,0)}
+            b = {'Black':(0,0,0),'Green':(0,255,0),'beige':(207,203,169),'Blue':(0,0,255),'Red':(255,0,0)}
             backgroundImage("color", images[-1], b[color_choosen.get()], '../assest/background/back1.png')
             render("../saved/temp.png")
         colorButton = TkinterCustomButton(master= window, text="Add color", corner_radius=5,
@@ -57,7 +57,7 @@ def background_window(window_root):
         color_choosen = ttk.Combobox(window, width=20, textvariable=m)
         color_choosen['values'] = ('Black',
                                    'Green',
-                                   'White',
+                                   'beige',
                                    'Blue',
                                    'Red')
 
@@ -85,8 +85,7 @@ def background_window(window_root):
 
     def browse():
         filename = filedialog.askopenfilename(title="select File",
-                                              filetypes=(
-                                              ("jpeg files", "*.jpg"), ("all files", "*.*"), ('png files', '*.png')))
+                                              filetypes = (("all files","*.*"),("jpeg files","*.jpg"),('png files', '*.png')))
         images.append(filename)
         render(images[-1])
         common()

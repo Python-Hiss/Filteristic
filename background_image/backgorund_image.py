@@ -10,7 +10,7 @@ def backgroundImage(type, input_image, color, back_ground):
         change_bg.load_pascalvoc_model("../background_image/xception_pascalvoc.pb")
 
         if type == 'image':
-            change_bg.change_bg_img(f_image_path = input_image, b_image_path = back_ground, output_image_name=path_name)
+            change_bg.change_bg_img(f_image_path = input_image, b_image_path = back_ground, output_image_name=path_name,detect='person')
         if type == 'gray':
             change_bg.gray_bg(input_image, output_image_name=path_name)
         if type =='color':

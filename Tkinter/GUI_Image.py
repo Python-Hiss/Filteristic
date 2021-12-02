@@ -10,7 +10,7 @@ import cv2
 from tkinter_custom_button import TkinterCustomButton
 # root = tk.Tk()
 images = []
-count = 1
+count = 0
 next = False
 entry = ""
 ######### import Window ##########
@@ -28,7 +28,7 @@ def importWindowyahia(root):
 
 
         filename = filedialog.askopenfilename(title="select File",
-                                              filetypes = (("jpeg files","*.jpg"),("all files","*.*"),('png files', '*.png')))
+                                              filetypes = (("all files","*.*"),("jpeg files","*.jpg"),('png files', '*.png')))
         images.append(filename)
         img = Image.open(images[-1])
         img = img.resize((500, 500))
@@ -106,16 +106,17 @@ def importWindowyahia(root):
     def saving(content, newWindow):
         pass
     def image_filter(path, newWindow):
+        global count
         images.append(
             image_filtering_face(
-                change_filter[0]['filter'],
+                change_filter[count]['filter'],
                 path,
-                change_filter[0]['center'],
-                change_filter[0]['width'],
-                change_filter[0]['height'],
-                change_filter[0]['up'],
-                change_filter[0]['left'],
-                change_filter[0]['counte']
+                change_filter[count]['center'],
+                change_filter[count]['width'],
+                change_filter[count]['height'],
+                change_filter[count]['up'],
+                change_filter[count]['left'],
+                change_filter[count]['counte']
             ))
         save = TkinterCustomButton(master=newWindow, text="Save", corner_radius=5,
                                    command=lambda: open_popup(images[-1],newWindow), fg_color="#FF5C58",hover_color="#ff544f", width=200, cursor="shuttle", text_font=("sans-serif", 20))

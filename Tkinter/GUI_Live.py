@@ -13,12 +13,17 @@ count_back = 0
 show_filter_live = False
 show_background_live = False
 
+
+
+
 def camera(newWindow):
     app = Frame(newWindow)
     app.pack()
     lmain = Label(app)
     lmain.pack()
 
+    def on_closing(top):
+        top.destroy()
 
 
     def printInput():
@@ -104,10 +109,12 @@ def camera(newWindow):
         path_name(frame)
 
     def print_path2(inputtxt, frame):
+        global top
         name = inputtxt.get(1.0, "end-1c")
         img_name = f"../saved/{name}.png"
         cv2.imwrite(img_name, frame)
         inputtxt.delete('1.0', tk.END)
+        on_closing(top)
 
     newWindow.geometry("960x630")
     newWindow.bind("<Right>", lambda x: nextWindow())
@@ -121,6 +128,7 @@ def camera(newWindow):
         top.title("save")
         global save
         save = True
+
     def path_name(frame):
         global top
         inputtxt = tk.Text(top,

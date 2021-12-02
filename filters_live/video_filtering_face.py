@@ -101,7 +101,7 @@ def background(frame,path,blur =1):
         frame = cv2.resize(frame, (fsize[1], fsize[0]))
 
         # flip it to look like selfie camera
-        frame = cv2.flip(frame, 1)
+        # frame = cv2.flip(frame, 1)
 
         # get rgb image to pass that on selfie segmentation
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
